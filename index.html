@@ -84,9 +84,10 @@ function calculateLove(name1, name2) {
     clearInterval(interval);
     let number = Math.floor(Math.random()*101);
     output.innerHTML += `Love meter result: ${name1} & ${name2} = ${number}%\n\n made by leemo no steal\n\n`;
-    output.innerHTML += '<span class="prompt"></span>';
     output.scrollTop = output.scrollHeight;
-    state = "init";
+    askForYourName();
+    yourName = "";
+    crushName = "";
   }, 1500);
 }
 
@@ -126,5 +127,5 @@ window.addEventListener("load", () => {
 </script>
 
 </body>
-<!-- # git add . && git commit -m "update love meter" && git push -->
+<!-- # git add . && git commit -m "fix meter" && git push -->
 </html>

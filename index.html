@@ -10,30 +10,7 @@
       font-family: "Cascadia Code", Consolas, monospace;
       padding: 20px;
     }
-
     h1, p, a { color: #d4d4d4; }
-
-    .socials {
-      display: flex;
-      gap: 30px;
-      margin-top: 20px;
-      align-items: center;
-    }
-
-    .socials a {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .socials svg {
-      width: 28px;
-      height: 28px;
-      fill: #d4d4d4;
-    }
-
     #love-terminal {
       background: #1e1e1e;
       border: 1px solid #333;
@@ -41,10 +18,9 @@
       font-family: "Cascadia Code", Consolas, monospace;
       font-size: 16px;
       white-space: pre;
-      margin-top: 30px;
+      margin-top: 20px;
       color: #d4d4d4;
     }
-
     #love-input {
       width: 100%;
       font-family: inherit;
@@ -56,13 +32,11 @@
       outline: none;
       caret-color: #0af;
     }
-
     .prompt::before { content: "PS C:\\LoveMeter> "; color: #0af; }
+    .loading { color: #0af; }
   </style>
 </head>
-
 <body>
-
   <h1>leemo.xyz</h1>
   <p>Christian</p>
   <p>Chicagoland</p>
@@ -70,27 +44,11 @@
   <p>I made the <a href="https://greaterport.org">Greater Portland website</a> with 
      <span style="background-color:black; color:black;">PERSEC</span>, one of my first projects, so lots of AI was used, but some code
   </p>
-
-  <div class="socials">
-
-    <a href="https://github.com/leemo-jeemo" target="_blank">
-      <svg viewBox="0 0 16 16">
-        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.61 7.61 0 0 1 2-.27c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-      </svg>
-    </a>
-
-    <a href="https://www.roblox.com/users/1567155158/profile" target="_blank">
-      <svg viewBox="0 0 256 256">
-        <path d="M45 0L256 45L211 256L0 211L45 0ZM110 110L90 166L146 146L166 90L110 110Z"/>
-      </svg>
-    </a>
-
-    <a href="https://discord.com/users/987136948722364416" target="_blank">
-      <svg viewBox="0 0 127.14 96.36">
-        <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83A97.68 97.68 0 0 0 49 6.83 72.37 72.37 0 0 0 45.64 0 105.89 105.89 0 0 0 19.39 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.85-11.13 68.42 68.42 0 0 1-10.79-5.18c.91-.66 1.8-1.35 2.66-2.06a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.4 2.66 2.06a68.68 68.68 0 0 1-10.8 5.19 77.51 77.51 0 0 0 6.86 11.12A105.25 105.25 0 0 0 126.6 80.2c2.64-27.43-4.5-51.17-18.9-72.13Z"/>
-      </svg>
-    </a>
-
+  <a href="https://github.com/leemo-jeemo" target="_blank" rel="noopener noreferrer" style="display:inline-block; width:48px; height:48px;">
+    <svg width="24" height="24" viewBox="0 0 16 16" fill="black" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.61 7.61 0 0 1 2-.27c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+  </a>
 
   <div id="love-terminal">
     <span class="prompt"></span>
@@ -159,6 +117,7 @@ input.addEventListener("keydown", e => {
   }
 });
 
+// Auto-start with initial prompt
 window.addEventListener("load", () => {
   askForYourName();
   state = "waiting-for-your-name";
@@ -167,5 +126,5 @@ window.addEventListener("load", () => {
 </script>
 
 </body>
-<!-- # git add . && git commit -m "fixed more link options" && git push -->
+<!-- # git add . && git commit -m "update love meter" && git push -->
 </html>

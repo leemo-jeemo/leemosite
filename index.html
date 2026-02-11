@@ -1,66 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" type="image/png" href="assets/icon.png" />
-    <title>leemo</title>
-    <style>
-      body { font-family: sans-serif; }
-      #love-output {
-        background: #111;
-        color: #0f0;
-        font-family: "Lucida Console", monospace;
-        padding: 10px;
-        white-space: pre;
-        margin-top: 20px;
-      }
-      #love-cmd {
-        background: #000;
-        color: #0f0;
-        border: none;
-        font-family: inherit;
-        font-size: 16px;
-        width: 100%;
-      }
-    </style>
+  <link rel="icon" type="image/png" href="assets/icon.png" />
+  <title>leemo</title>
+  <style>
+    body {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: "Cascadia Code", Consolas, monospace;
+      padding: 20px;
+    }
+    h1, p, a { color: #d4d4d4; }
+    #love-terminal {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 15px;
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-size: 16px;
+      white-space: pre;
+      margin-top: 20px;
+      color: #d4d4d4;
+    }
+    #love-input {
+      width: 100%;
+      font-family: inherit;
+      font-size: 16px;
+      padding: 5px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border: none;
+      outline: none;
+      caret-color: #0af;
+    }
+    .prompt::before { content: "PS C:\\LoveMeter> "; color: #0af; }
+    .loading { color: #0af; }
+  </style>
 </head>
 <body>
-    <h1>leemo.xyz</h1>
-    <p>Christian</p>
-    <p>Chicagoland</p>
-    <p>Actually good website soon maybe</p>
-    <p>I made the <a href="https://greaterport.org"> Greater Portland website</a> with 
-       <span style="background-color:black; color:black;">PERSEC</span>, one of my first projects, so lots of AI was used, but some code
-    </p>
-<a href="https://github.com/leemo-jeemo" target="_blank" rel="noopener noreferrer" style="display:inline-block; width:48px; height:48px;">
-  <svg width="24" height="24" viewBox="0 0 16 16" fill="black" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.61 7.61 0 0 1 2-.27c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-  </svg>
-</a>
+  <h1>leemo.xyz</h1>
+  <p>Christian</p>
+  <p>Chicagoland</p>
+  <p>Actually good website soon maybe</p>
+  <p>I made the <a href="https://greaterport.org">Greater Portland website</a> with 
+     <span style="background-color:black; color:black;">PERSEC</span>, one of my first projects, so lots of AI was used, but some code
+  </p>
+  <a href="https://github.com/leemo-jeemo" target="_blank" rel="noopener noreferrer" style="display:inline-block; width:48px; height:48px;">
+    <svg width="24" height="24" viewBox="0 0 16 16" fill="black" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.61 7.61 0 0 1 2-.27c.68.003 1.36.092 2 .27 1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+    </svg>
+  </a>
 
-<div id="love-output">PS C:\LoveMeter&gt; </div>
-<input id="love-cmd" autocomplete="off" placeholder="Type: love John Jane and press ENTER">
+  <div id="love-terminal">
+    <span class="prompt"></span>
+  </div>
+  <input id="love-input" autocomplete="off" placeholder="Type: love John Jane and press ENTER">
 
 <script>
-const output = document.getElementById("love-output");
-const cmd = document.getElementById("love-cmd");
+const output = document.getElementById("love-terminal");
+const input = document.getElementById("love-input");
 
-cmd.addEventListener("keydown", (e) => {
-  if(e.key==="Enter"){
-    let text = cmd.value.trim();
-    output.textContent += text+"\n";
-    cmd.value="";
-    const parts = text.split(" ");
-    if(parts[0]==="love" && parts.length>=3){
+input.addEventListener("keydown", e => {
+  if(e.key === "Enter"){
+    let cmd = input.value.trim();
+    output.innerHTML += cmd + "\n";
+    input.value = "";
+    let parts = cmd.split(" ");
+    if(parts[0] === "love" && parts.length >= 3){
       let name1 = parts[1];
       let name2 = parts[2];
-      output.textContent += "Calculating love meter...\n";
-      let number = Math.floor(Math.random()*101);
-      output.textContent += `Your chance of love is ${number}%\n\n`;
-    }else{
-      output.textContent += "Unknown command. Try: love NAME1 NAME2\n\n";
+      let loading = "Calculating love meter";
+      let i = 0;
+      let interval = setInterval(()=>{
+        output.innerHTML = output.innerHTML.replace(/Calculating love meter.*\n/, "") + loading + ".".repeat(i%4) + "\n";
+        i++;
+      }, 300);
+      setTimeout(()=>{
+        clearInterval(interval);
+        let number = Math.floor(Math.random()*101);
+        output.innerHTML += `Your chance of love is ${number}%\n\n`;
+        output.innerHTML += '<span class="prompt"></span>';
+        output.scrollTop = output.scrollHeight;
+      }, 1500);
+    } else {
+      output.innerHTML += "Unknown command. Try: love NAME1 NAME2\n\n<span class='prompt'></span>";
+      output.scrollTop = output.scrollHeight;
     }
-    output.textContent += "PS C:\\LoveMeter&gt; ";
-    window.scrollTo(0,document.body.scrollHeight);
   }
 });
 </script>

@@ -1,0 +1,9 @@
+<p id="quote"></p>
+
+<script>
+  fetch('assets/quotes.json')
+    .then(res => res.json())
+    .then(quotes => {
+      console.log(quotes)
+    })
+</script>

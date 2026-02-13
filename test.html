@@ -1,17 +1,12 @@
 <p id="quote"></p>
+<p id="author"></p>
 
 <script>
   fetch('assets/quotes.json')
     .then(res => res.json())
     .then(quotes => {
-     let index = 0
-
-function showQuote() {
-  document.getElementById('quote').textContent = quotes[index].quote
-  index = (index + 1) % quotes.length
-}
-
-showQuote()
-setInterval(showQuote, 2000)
+const random = Math.floor(Math.random() * quotes.length)
+document.getElementById('quote').textContent = quotes[random].quote
+document.getElementById('author').textContent = '— ' + quotes[random].author
     })
 </script>

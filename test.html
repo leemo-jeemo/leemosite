@@ -4,6 +4,14 @@
   fetch('assets/quotes.json')
     .then(res => res.json())
     .then(quotes => {
-      document.getElementById('quote').textContent = quotes[0].quote
+     let index = 0
+
+function showQuote() {
+  document.getElementById('quote').textContent = quotes[index].quote
+  index = (index + 1) % quotes.length
+}
+
+showQuote()
+setInterval(showQuote, 2000)
     })
 </script>

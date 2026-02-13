@@ -4,6 +4,6 @@
   fetch('assets/quotes.json')
     .then(res => res.json())
     .then(quotes => {
-      console.log(quotes)
+      document.getElementById('quote').textContent = quotes[0].quote
     })
 </script>

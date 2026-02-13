@@ -37,10 +37,20 @@
   </style>
 </head>
 <body>
+  <div style="display:flex; gap:40px;">
   <h1>leemo.xyz</h1>
   <p>Christian</p>
   <p>Chicagoland</p>
   <p>Actually good website soon maybe</p>
+  </div>
+  </div>
+  <div style="border-left: 1px solid #333; padding-left:40px; max-width:300px;">
+    <p id="quote"></p>
+    <p id="author" style="color:#0af;"></p>
+  </div>
+</div>
+<p id="quote"></p>
+<p id="author"></p>
   <p>I made the <a href="https://greaterport.org">Greater Portland website</a> with 
      <span style="background-color:black; color:black;">PERSEC</span>, one of my first projects, so lots of AI was used, but some code
   </p>
@@ -124,7 +134,15 @@ window.addEventListener("load", () => {
   output.scrollTop = output.scrollHeight;
 });
 </script>
-
+<script>
+  fetch('assets/quotes.json')
+    .then(res => res.json())
+    .then(quotes => {
+      const random = Math.floor(Math.random() * quotes.length)
+      document.getElementById('quote').textContent = quotes[random].quote
+      document.getElementById('author').textContent = '— ' + quotes[random].author
+    })
+</script>
 </body>
 <!-- # git add . && git commit -m "quotes testing" && git push -->
 </html>

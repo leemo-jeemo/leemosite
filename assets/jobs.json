@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Judah's Customs",
+    "position": "Operations",
+    "logo": "assets/judahs/logo.webp",
+    "banner": "assets/judahs/banner.webp",
+    "invite": "https://discord.gg/judah"
+  },
+  {
+    "name": "The Queen City",
+    "position": "Deputy Director",
+    "logo": "assets/qc/logo.png",
+    "banner": "assets/qc/banner.png",
+    "invite": "https://discord.gg/RsMmdmuFd3"
+  },
+  {
+    "name": "Havric Concepts",
+    "position": "Marketing Team",
+    "logo": "assets/havric/logo.webp",
+    "banner": "assets/havric/banner.png",
+    "invite": "https://discord.gg/zYhYANkuMS"
+  }
+]

@@ -2,9 +2,19 @@
 <html lang="en">
   <head>
     <link rel="icon" type="image/png" href="assets/icon.png" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,500;0,700;1,500&display=swap"
+      rel="stylesheet"
+    />
     <title>leemo</title>
     <style>
+      html {
+        scrollbar-width: none;
+        scroll-behavior: smooth;
+      }
+      html::-webkit-scrollbar {
+        display: none;
+      }
       body {
         display: flex;
         flex-direction: column;
@@ -12,7 +22,11 @@
         justify-content: center;
         min-height: 100vh;
         background: #0d0d0d;
-        overflow: hidden;
+        overflow-y: scroll;
+        scrollbar-width: none;
+      }
+      body::-webkit-scrollbar {
+        display: none;
       }
       h1 {
         font-family: "DM Sans", sans-serif;
@@ -21,6 +35,24 @@
         letter-spacing: -2px;
         color: #ffffff;
         margin: 0;
+      }
+      .name-wrap {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+      }
+      #speech-bubble {
+        position: absolute;
+        top: -18px;
+        right: 0px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        white-space: nowrap;
       }
       .divider {
         width: 100%;
@@ -99,24 +131,24 @@
       }
       button:hover {
         border-color: #666;
-    }
-    .server-name {
+      }
+      .server-name {
         color: #fff;
         font-weight: 700;
         margin: 10px 0 2px;
         text-align: left;
         font-family: "DM Sans", sans-serif;
         font-weight: 500;
-    }
-    .server-position {
+      }
+      .server-position {
         color: #666;
         font-size: 0.85rem;
         text-align: left;
         font-family: "DM Sans", sans-serif;
         font-weight: 500;
         font-style: italic;
-    }
-    .join-btn {
+      }
+      .join-btn {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -129,24 +161,29 @@
         font-weight: 500;
         font-size: 0.9rem;
         transition: opacity 0.2s;
-        margin-top: 8px;}
-    .join-btn:hover {
+        margin-top: 8px;
+      }
+      .join-btn:hover {
         opacity: 0.8;
-        }
-        .join-icon {
-            filter: invert(1);}
-            .server-info {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                margin-top: 10px;
-            }
+      }
+      .join-icon {
+        filter: invert(1);
+      }
+      .server-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="card">
-      <h1>leemo</h1>
+      <div class="name-wrap">
+        <span id="speech-bubble" style="display: none"></span>
+        <h1>leemo</h1>
+      </div>
 
       <div class="socials">
         <a href="https://github.com/leemo-jeemo"
@@ -161,58 +198,73 @@
         <p id="quote"></p>
         <p id="author"></p>
       </div>
-      </div>
-      <div class="carousel-wrapper">
-        <button id="prev">&#8592;</button>
-        <div class="carousel">
-          <div class="server-card">
-            <div class="banner-wrap">
-              <img class="banner" src="assets/havric/banner.png" />
-            </div>
-                <div class="server-info">
-                    <div>
-            <p class="server-name">Havric Concepts</p>
-            <p class="server-position">Marketing Team</p>
-            </div>
-     <a href="#" target="_blank" class="join-btn">
-  <img src="assets/Discord_Black.svg" width="16" height="16" class="join-icon" />
-  Join
-</a>
-</div>
+    </div>
+    <div class="carousel-wrapper">
+      <button id="prev">&#8592;</button>
+      <div class="carousel">
+        <div class="server-card">
+          <div class="banner-wrap">
+            <img class="banner" src="assets/havric/banner.png" />
           </div>
+          <div class="server-info">
+            <div>
+              <p class="server-name">Havric Concepts</p>
+              <p class="server-position">Marketing Team</p>
+            </div>
+            <a href="#" target="_blank" class="join-btn">
+              <img
+                src="assets/Discord_Black.svg"
+                width="16"
+                height="16"
+                class="join-icon"
+              />
+              Join
+            </a>
+          </div>
+        </div>
         <div class="server-card">
           <div class="banner-wrap">
             <img class="banner" src="assets/qc/banner.png" />
           </div>
           <div class="server-info">
             <div>
-          <p class="server-name">The Queen City</p>
-          <p class="server-position">Deputy Director</p>
+              <p class="server-name">The Queen City</p>
+              <p class="server-position">Deputy Director</p>
+            </div>
+            <a href="#" target="_blank" class="join-btn">
+              <img
+                src="assets/Discord_Black.svg"
+                width="16"
+                height="16"
+                class="join-icon"
+              />
+              Join
+            </a>
           </div>
-         <a href="#" target="_blank" class="join-btn">
-  <img src="assets/Discord_Black.svg" width="16" height="16" class="join-icon" />
-  Join
-</a>
-</div>
         </div>
         <div class="server-card">
-            <div class="banner-wrap">
-              <img class="banner" src="assets/judahs/banner.webp" />
+          <div class="banner-wrap">
+            <img class="banner" src="assets/judahs/banner.webp" />
+          </div>
+          <div class="server-info">
+            <div>
+              <p class="server-name">Judah's Customs</p>
+              <p class="server-position">Operations</p>
             </div>
-            <div class="server-info">
-                <div>
-        <p class="server-name">Judah's Customs</p>
-        <p class="server-position">Operations</p>
+            <a href="#" target="_blank" class="join-btn">
+              <img
+                src="assets/Discord_Black.svg"
+                width="16"
+                height="16"
+                class="join-icon"
+              />
+              Join
+            </a>
+          </div>
         </div>
-   <a href="#" target="_blank" class="join-btn">
-  <img src="assets/Discord_Black.svg" width="16" height="16" class="join-icon" />
-  Join
-</a>
       </div>
+      <button id="next">&#8594;</button>
     </div>
-    </div>
-           <button id="next">&#8594;</button id>
-           </div>
     <script>
       fetch("assets/quotes.json")
         .then((res) => res.json())
@@ -225,27 +277,41 @@
         });
     </script>
     <script>
-        const cards = document.querySelectorAll('.server-card');
-        let current = Math.floor(Math.random() * cards.length);
-        cards[current].classList.add('active');
-        document.getElementById('next').addEventListener('click', () => {
-            cards[current].classList.remove('active');
-            current = (current + 1) % cards.length;
-            cards[current].classList.add('active');
-        });
-        document.getElementById('prev').addEventListener('click', () => {
-            cards[current].classList.remove('active');
-            current = (current - 1 + cards.length) % cards.length;
-            cards[current].classList.add('active');
+      const cards = document.querySelectorAll(".server-card");
+      let current = Math.floor(Math.random() * cards.length);
+      cards[current].classList.add("active");
+      document.getElementById("next").addEventListener("click", () => {
+        cards[current].classList.remove("active");
+        current = (current + 1) % cards.length;
+        cards[current].classList.add("active");
+      });
+      document.getElementById("prev").addEventListener("click", () => {
+        cards[current].classList.remove("active");
+        current = (current - 1 + cards.length) % cards.length;
+        cards[current].classList.add("active");
+      });
+    </script>
+    <script>
+      fetch("assets/jobs.json")
+        .then((res) => res.json())
+        .then((jobs) => {
+          const joinBtns = document.querySelectorAll(".join-btn");
+          joinBtns.forEach((btn, i) => {
+            btn.href = jobs[i].invite;
+          });
         });
     </script>
     <script>
-        fetch("assets/jobs.json")
+      fetch("https://api.lanyard.rest/v1/users/987136948722364416")
         .then((res) => res.json())
-        .then((jobs => {
-            const joinBtns = document.querySelectorAll('.join-btn');
-            joinBtns.forEach((btn, i) => {btn.href = jobs[i].invite;})
-        }))
+        .then((data) => {
+          const activity = data.data.activities[0];
+          if (activity && activity.state) {
+            const bubble = document.getElementById("speech-bubble");
+            bubble.textContent = activity.state;
+            bubble.style.display = "block";
+          }
+        });
     </script>
   </body>
 </html>

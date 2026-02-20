@@ -1,10 +1,10 @@
 [
   {
-    "name": "Judah's Customs",
-    "position": "Operations",
-    "logo": "assets/judahs/logo.webp",
-    "banner": "assets/judahs/banner.webp",
-    "invite": "https://discord.gg/judah"
+    "name": "Havric Concepts",
+    "position": "Marketing Team",
+    "logo": "assets/havric/logo.webp",
+    "banner": "assets/havric/banner.png",
+    "invite": "https://discord.gg/zYhYANkuMS"
   },
   {
     "name": "The Queen City",
@@ -14,10 +14,10 @@
     "invite": "https://discord.gg/RsMmdmuFd3"
   },
   {
-    "name": "Havric Concepts",
-    "position": "Marketing Team",
-    "logo": "assets/havric/logo.webp",
-    "banner": "assets/havric/banner.png",
-    "invite": "https://discord.gg/zYhYANkuMS"
+    "name": "Judah's Customs",
+    "position": "Operations",
+    "logo": "assets/judahs/logo.webp",
+    "banner": "assets/judahs/banner.webp",
+    "invite": "https://discord.gg/judah"
   }
 ]

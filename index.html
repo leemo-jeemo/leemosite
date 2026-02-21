@@ -164,6 +164,21 @@
         transition: opacity 0.2s;
         margin-top: 8px;
       }
+      .roblox-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid #fff;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: opacity 0.2s;
+        margin-top: 8px;
+      }
       .join-btn:hover {
         opacity: 0.8;
       }
@@ -232,15 +247,33 @@
               <p class="server-name">Havric Concepts</p>
               <p class="server-position">Marketing Team</p>
             </div>
-            <a href="#" target="_blank" class="join-btn">
-              <img
-                src="assets/Discord_Black.svg"
-                width="16"
-                height="16"
-                class="join-icon"
-              />
-              Join
-            </a>
+            <div
+              style="
+                display: flex;
+                flex-direction: row;
+                align-items: flex-end;
+                gap: 8px;
+              "
+            >
+              <a href="#" target="_blank" class="join-btn">
+                <img
+                  src="assets/Discord_Black.svg"
+                  width="16"
+                  height="16"
+                  class="join-icon"
+                />
+                Join
+              </a>
+              <a href="#" target="_blank" class="roblox-btn">
+                <img
+                  src="assets/Roblox_Black.svg"
+                  width="16"
+                  height="16"
+                  class="join-icon"
+                />
+                Roblox Group
+              </a>
+            </div>
           </div>
         </div>
         <div class="server-card">
@@ -283,6 +316,26 @@
             </a>
           </div>
         </div>
+        <div class="server-card">
+          <div class="banner-wrap">
+            <img class="banner" src="assets/rs/banner.png" />
+          </div>
+          <div class="server-info">
+            <div>
+              <p class="server-name">rizzstore\\</p>
+              <p class="server-position">king leemo</p>
+            </div>
+            <a href="#" target="_blank" class="roblox-btn">
+              <img
+                src="assets/Roblox_Black.svg"
+                width="16"
+                height="16"
+                class="join-icon"
+              />
+              Roblox Group
+            </a>
+          </div>
+        </div>
       </div>
       <button id="next">&#8594;</button>
     </div>
@@ -319,6 +372,19 @@
           const joinBtns = document.querySelectorAll(".join-btn");
           joinBtns.forEach((btn, i) => {
             btn.href = jobs[i].invite;
+          });
+        });
+    </script>
+    <script>
+      fetch("assets/jobs.json")
+        .then((res) => res.json())
+        .then((jobs) => {
+          const robloxBtns = document.querySelectorAll(".roblox-btn");
+          robloxBtns.forEach((btn) => {
+            const card = btn.closest(".server-card");
+            const name = card.querySelector(".server-name").textContent.trim();
+            const job = jobs.find((j) => j.name === name && j.roblox);
+            if (job) btn.href = job.roblox;
           });
         });
     </script>

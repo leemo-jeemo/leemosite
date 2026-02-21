@@ -4,7 +4,8 @@
     "position": "Marketing Team",
     "logo": "assets/havric/logo.webp",
     "banner": "assets/havric/banner.png",
-    "invite": "https://discord.gg/zYhYANkuMS"
+    "invite": "https://discord.gg/zYhYANkuMS",
+    "roblox": "https://www.roblox.com/communities/79507151/Havric-Concepts"
   },
   {
     "name": "The Queen City",
@@ -19,5 +20,12 @@
     "logo": "assets/judahs/logo.webp",
     "banner": "assets/judahs/banner.webp",
     "invite": "https://discord.gg/judah"
+  },
+  {
+    "name": "rizzstore\\",
+    "position": "king",
+    "logo": "assets/rs/logo.png",
+    "banner": "assets/rs/banner.png",
+    "roblox": "https://www.roblox.com/communities/36087802/rizzstore"
   }
 ]

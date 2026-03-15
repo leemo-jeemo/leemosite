@@ -40,7 +40,7 @@
         position: relative;
         display: inline-block;
         text-align: left;
-        padding-top: 16px;
+        padding-top: 20px;
       }
       #speech-bubble {
         position: absolute;
@@ -67,6 +67,7 @@
         max-width: 500px;
         padding: 0 24px;
         text-align: center;
+        margin-top: 32px;
       }
       .socials {
         display: flex;
@@ -226,6 +227,47 @@
         display: block;
         margin: 0 auto 6px;
       }
+      .duo-section {
+        position: absolute;
+        right: 100px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        padding: 24px 32px;
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+        color: #666;
+        font-size: 1rem;
+        font-style: italic;
+        min-width: 200px;
+      }
+      .duo-section p {
+        margin: 4px 0;
+      }
+      .duo-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .duo-header img {
+        width: 36px;
+        height: 36px;
+      }
+      .duo-header span {
+        color: #fff;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+      .duo-section img.emoji {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.1em;
+      }
     </style>
   </head>
   <div id="mobile-warning" style="display: none">
@@ -305,6 +347,7 @@
       </div>
       <button id="next">&#8594;</button>
     </div>
+    <div class="duo-section" id="duolingo-stats"></div>
     <script>
       fetch("assets/quotes.json")
         .then((res) => res.json())
@@ -378,6 +421,56 @@
       if (isMobile) {
         document.getElementById("mobile-warning").style.display = "flex";
       }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
+    <script>
+      const CACHE_KEY = "duo_stats";
+      const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+      function renderStats(user) {
+        const streak = user.streak;
+        const spanish = user.courses.find((c) => c.learningLanguage === "es");
+        document.getElementById("duolingo-stats").innerHTML = `
+    <div class="duo-header">
+      <img src="assets/Duolingo_Icon_Black.svg" />
+      <span>Duolingo Stats</span>
+    </div>
+      <p>${streak} day streak</p>
+      <p>🇪🇸 ${spanish.xp} Spanish XP</p>
+      `;
+      }
+
+      function fetchStats() {
+        fetch(
+          "https://duolingoapi.bigmurph2618.workers.dev/?username=leemo.jeemo",
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const user = data.users[0];
+            localStorage.setItem(
+              CACHE_KEY,
+              JSON.stringify({ user, time: Date.now() }),
+            );
+            renderStats(user);
+            twemoji.parse(document.getElementById("duolingo-stats"), {
+              base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/",
+            });
+          });
+      }
+
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { user, time } = JSON.parse(cached);
+        renderStats(user);
+        twemoji.parse(document.getElementById("duolingo-stats"), {
+          base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/",
+        });
+        if (Date.now() - time > CACHE_TTL) fetchStats();
+      } else {
+        fetchStats();
+      }
+
+      setInterval(fetchStats, CACHE_TTL);
     </script>
   </body>
 </html>

@@ -58,9 +58,10 @@
       }
       .divider {
         width: 100%;
+        max-width: 500px;
         border: none;
         border-top: 1px solid #2a2a2a;
-        margin: 24px 0;
+        margin: 24px auto;
       }
       .card {
         width: 100%;
@@ -363,6 +364,41 @@
       #author-input::placeholder {
         color: #444;
       }
+      .murphy-section {
+        width: 100%;
+        max-width: 700px;
+        padding: 0 24px;
+        text-align: center;
+        margin-top: 32px;
+      }
+      .murphy-gallery {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 8px;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .murphy-gallery img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        display: block;
+      }
+      .murphy-name {
+        color: #fff;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin: 16px 0 4px;
+      }
+      .murphy-dates {
+        color: #444;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.85rem;
+        font-style: italic;
+        margin: 0;
+      }
     </style>
   </head>
   <div id="mobile-warning" style="display: none">
@@ -456,6 +492,13 @@
         </button>
       </div>
     </div>
+    <hr class="divider" />
+    <div class="murphy-section">
+      <div class="murphy-gallery" id="murphy-gallery"></div>
+      <p class="murphy-name">Murphy</p>
+      <p class="murphy-dates">February 6, 2018 — March 22, 2026</p>
+    </div>
+    <hr class="divider" />
     <div class="carousel-wrapper">
       <button id="prev">&#8592;</button>
       <div class="carousel">
@@ -815,6 +858,28 @@
           toast.style.display = "none";
         }, 3000);
       }
+    </script>
+    <script>
+      const murphyPhotos = [
+        "assets/murphy/67504271850__E97DE265-EB58-44B1-9634-D01077E26C7F.jpg",
+        "assets/murphy/70916881767__E3A8C9BC-2D93-498A-A000-EB674313DC9F.jpg",
+        "assets/murphy/FullSizeRender.jpg",
+        "assets/murphy/IMG_1035.jpg",
+        "assets/murphy/IMG_1197.jpg",
+        "assets/murphy/IMG_1308.jpg",
+        "assets/murphy/IMG_1353.jpg",
+        "assets/murphy/IMG_2544.jpg",
+        "assets/murphy/IMG_2596.jpg",
+        "assets/murphy/IMG_8589.jpg",
+      ];
+
+      murphyPhotos
+        .sort(() => Math.random() - 0.5)
+        .forEach((src) => {
+          const img = document.createElement("img");
+          img.src = src;
+          document.getElementById("murphy-gallery").appendChild(img);
+        });
     </script>
   </body>
 </html>

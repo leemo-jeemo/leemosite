@@ -227,6 +227,22 @@
         display: block;
         margin: 0 auto 6px;
       }
+      .todo-section {
+        position: absolute;
+        left: 100px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        padding: 24px 32px;
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+        color: #666;
+        font-size: 1rem;
+        font-style: italic;
+        min-width: 200px;
+      }
       .duo-section {
         position: absolute;
         right: 100px;
@@ -268,12 +284,135 @@
         height: 1em;
         vertical-align: -0.1em;
       }
+      .todo-header span {
+        color: #fff;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+      #modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #modal-box {
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        padding: 32px;
+        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        font-family: "DM Sans", sans-serif;
+      }
+      #modal-title {
+        color: #fff;
+        font-size: 1.2rem;
+        margin: 0;
+      }
+      #modal-input {
+        background: #0d0d0d;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #fff;
+        font-family: "DM Sans", sans-serif;
+        font-size: 1rem;
+        outline: none;
+      }
+      #modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+      #modal-cancel {
+        border-color: #444;
+        color: #666;
+      }
+      #modal-confirm {
+        border-color: #fff;
+        color: #fff;
+      }
+      #quote-form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+        width: 100%;
+      }
+      #quote-input,
+      #author-input {
+        background: #0d0d0d;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        padding: 10px 14px;
+        color: #fff;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.9rem;
+        outline: none;
+      }
+      #quote-input::placeholder,
+      #author-input::placeholder {
+        color: #444;
+      }
     </style>
   </head>
   <div id="mobile-warning" style="display: none">
     <p>we all fucking hate mobile users</p>
   </div>
   <body>
+    <div id="modal-overlay" style="display: none">
+      <div id="modal-box">
+        <h2 id="modal-title">Add To-Do</h2>
+        <input id="modal-input" type="text" placeholder="Enter text..." />
+        <input
+          id="modal-input2"
+          type="text"
+          placeholder="Author..."
+          style="
+            display: none;
+            background: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-family: &quot;DM Sans&quot;, sans-serif;
+            font-size: 1rem;
+            outline: none;
+          "
+        />
+        <div id="modal-buttons">
+          <button id="modal-cancel">Cancel</button>
+          <button id="modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
+    <div
+      id="toast"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #1a1a1a;
+        border: 1px solid #2a2a2a;
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-family: &quot;DM Sans&quot;, sans-serif;
+        font-size: 0.9rem;
+        z-index: 99999;
+      "
+    ></div>
     <div class="card">
       <div class="name-wrap">
         <div class="profile-wrap" id="profile-wrap" style="display: none">
@@ -299,6 +438,22 @@
       <div class="quote-block">
         <p id="quote"></p>
         <p id="author"></p>
+      </div>
+      <div style="position: relative">
+        <button
+          id="submit-quote-btn"
+          style="
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-color: #2a2a2a;
+            color: #444;
+          "
+        >
+          + quote
+        </button>
       </div>
     </div>
     <div class="carousel-wrapper">
@@ -347,9 +502,16 @@
       </div>
       <button id="next">&#8594;</button>
     </div>
+    <div class="todo-section">
+      <div class="todo-header">
+        <span>To-Do List</span>
+      </div>
+      <ul id="todo-list"></ul>
+      <button id="add-todo-btn">+ Add</button>
+    </div>
     <div class="duo-section" id="duolingo-stats"></div>
     <script>
-      fetch("assets/quotes.json")
+      fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/quotes")
         .then((res) => res.json())
         .then((quotes) => {
           const random = Math.floor(Math.random() * quotes.length);
@@ -428,16 +590,18 @@
       const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
       function renderStats(user) {
+        console.log(user.courses);
         const streak = user.streak;
         const spanish = user.courses.find((c) => c.learningLanguage === "es");
+        const chess = user.courses.find((c) => c.learningLanguage === "chess");
         document.getElementById("duolingo-stats").innerHTML = `
-    <div class="duo-header">
-      <img src="assets/Duolingo_Icon_Black.svg" />
-      <span>Duolingo Stats</span>
-    </div>
-      <p>${streak} day streak</p>
-      <p>🇪🇸 ${spanish.xp} Spanish XP</p>
-      `;
+          <div class="duo-header">
+            <img src="assets/Duolingo_Icon_Black.svg" />
+            <span>Duolingo Stats</span>
+          </div>
+            <p>${streak} day streak</p>
+            <p>🇪🇸 ${spanish.xp} Spanish XP</p>
+      ${chess ? `<p>♟️ ${chess.xp} Chess XP</p>` : ""}`;
       }
 
       function fetchStats() {
@@ -471,6 +635,186 @@
       }
 
       setInterval(fetchStats, CACHE_TTL);
+    </script>
+    <script>
+      const WORKER_URL = "https://icy-shape-78e5.bigmurph2618.workers.dev/";
+      function createTodoElement(todo) {
+        const li = document.createElement("li");
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+        li.style.gap = "8px";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.addEventListener("change", async () => {
+          const token = localStorage.getItem("auth_token");
+          const res = await fetch(WORKER_URL, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id: todo.id }),
+          });
+          if (res.ok) {
+            li.remove();
+          } else {
+            checkbox.checked = false;
+            showToast("Failed to delete!");
+          }
+        });
+
+        const span = document.createElement("span");
+        span.textContent = todo.text;
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        return li;
+      }
+
+      fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/")
+        .then((res) => res.json())
+        .then((todos) => {
+          const list = document.getElementById("todo-list");
+          todos.forEach((todo) => {
+            list.appendChild(createTodoElement(todo));
+          });
+        });
+    </script>
+    <script>
+      const overlay = document.getElementById("modal-overlay");
+      const modalTitle = document.getElementById("modal-title");
+      const modalInput = document.getElementById("modal-input");
+      const modalConfirm = document.getElementById("modal-confirm");
+      const modalCancel = document.getElementById("modal-cancel");
+
+      let modalMode = "todo";
+
+      function openModal(mode) {
+        modalMode = mode;
+        function openModal(mode) {
+          modalMode = mode;
+          modalInput2.style.display = "none";
+          if (mode === "password") {
+            modalTitle.textContent = "Enter Password";
+            modalInput.type = "password";
+            modalInput.placeholder = "Password...";
+          } else if (mode === "quote") {
+            modalTitle.textContent = "Submit a Quote";
+            modalInput.type = "text";
+            modalInput.placeholder = "Quote...";
+            modalInput2.style.display = "block";
+          } else {
+            modalTitle.textContent = "Add To-Do";
+            modalInput.type = "text";
+            modalInput.placeholder = "Enter task...";
+          }
+          modalInput.value = "";
+          modalInput2.value = "";
+          overlay.style.display = "flex";
+          modalInput.focus();
+        }
+        if (mode === "password") {
+          modalTitle.textContent = "Enter Password";
+          modalInput.type = "password";
+          modalInput.placeholder = "Password...";
+        } else {
+          modalTitle.textContent = "Add To-Do";
+          modalInput.type = "text";
+          modalInput.placeholder = "Enter task...";
+        }
+        modalInput.value = "";
+        overlay.style.display = "flex";
+        modalInput.focus();
+      }
+
+      function closeModal() {
+        overlay.style.display = "none";
+      }
+
+      async function addTodo(text) {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ text }),
+        });
+        if (res.ok) {
+          const todo = await res.json();
+          console.log(todo);
+          const li = createTodoElement(todo[0]);
+          document.getElementById("todo-list").appendChild(li);
+        } else {
+          alert("Failed to add todo!");
+        }
+      }
+
+      document
+        .getElementById("modal-cancel")
+        .addEventListener("click", closeModal);
+
+      modalConfirm.addEventListener("click", async () => {
+        const value = modalInput.value.trim();
+        if (!value) return;
+
+        if (modalMode === "password") {
+          localStorage.setItem("auth_token", value);
+          closeModal();
+          openModal("todo");
+        } else if (modalMode === "quote") {
+          const author = modalInput2.value.trim();
+          if (!author) return;
+          closeModal();
+          await fetch(WORKER_URL + "quotes", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ quote: value, author }),
+          }).then((res) =>
+            res.ok
+              ? showToast("Quote submitted!")
+              : showToast("Failed to submit quote!"),
+          );
+        } else {
+          closeModal();
+          await addTodo(value);
+        }
+      });
+
+      document.getElementById("add-todo-btn").addEventListener("click", () => {
+        const token = localStorage.getItem("auth_token");
+        if (token) {
+          openModal("todo");
+        } else {
+          openModal("password");
+        }
+      });
+
+      const modalInput2 = document.getElementById("modal-input2");
+
+      document
+        .getElementById("submit-quote-btn")
+        .addEventListener("click", () => {
+          modalMode = "quote";
+          modalTitle.textContent = "Submit a Quote";
+          modalInput.type = "text";
+          modalInput.placeholder = "Quote...";
+          modalInput2.style.display = "block";
+          modalInput.value = "";
+          modalInput2.value = "";
+          overlay.style.display = "flex";
+          modalInput.focus();
+        });
+
+      function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.style.display = "block";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 3000);
+      }
     </script>
   </body>
 </html>

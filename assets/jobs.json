@@ -12,5 +12,13 @@
     "logo": "assets/rs/logo.png",
     "banner": "assets/rs/banner.png",
     "roblox": "https://www.roblox.com/communities/36087802/rizzstore"
+  },
+  {
+    "name": "Northca Systems",
+    "position": "Trial Developer",
+    "logo": "assets/northca/logo.png",
+    "banner": "assets/northca/banner.png",
+    "invite": "https://discord.gg/nBaNrMYK9k",
+    "website": "https://northca.dev/"
   }
 ]

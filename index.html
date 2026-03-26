@@ -502,7 +502,7 @@
     <div class="carousel-wrapper">
       <button id="prev">&#8592;</button>
       <div class="carousel">
-        <div class="server-card">
+        <div class="server-card" data-job="0">
           <div class="banner-wrap">
             <img class="banner" src="assets/qc/banner.png" />
           </div>
@@ -522,13 +522,13 @@
             </a>
           </div>
         </div>
-        <div class="server-card">
+        <div class="server-card" data-job="1">
           <div class="banner-wrap">
             <img class="banner" src="assets/rs/banner.png" />
           </div>
           <div class="server-info">
             <div>
-              <p class="server-name">rizzstore\\</p>
+              <p class="server-name">rizzstore\</p>
               <p class="server-position">king leemo</p>
             </div>
             <a href="#" target="_blank" class="roblox-btn">
@@ -540,6 +540,41 @@
               />
               Roblox Group
             </a>
+          </div>
+        </div>
+        <div class="server-card" data-job="2">
+          <div class="banner-wrap">
+            <img class="banner" src="assets/northca/banner.png" />
+          </div>
+          <div class="server-info">
+            <div>
+              <p class="server-name">Northca Systems</p>
+              <p class="server-position">Trial Developer</p>
+            </div>
+            <div style="display: flex; gap: 8px">
+              <a
+                href="https://discord.gg/nBaNrMYK9k"
+                target="_blank"
+                class="join-btn"
+              >
+                <img
+                  src="assets/Discord_Black.svg"
+                  width="16"
+                  height="16"
+                  class="join-icon"
+                />
+                Join
+              </a>
+              <a href="https://northca.dev/" target="_blank" class="join-btn">
+                <img
+                  src="assets/website.svg"
+                  width="16"
+                  height="16"
+                  class="join-icon"
+                />
+                Website
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -583,22 +618,14 @@
       fetch("assets/jobs.json")
         .then((res) => res.json())
         .then((jobs) => {
-          const joinBtns = document.querySelectorAll(".join-btn");
-          joinBtns.forEach((btn, i) => {
-            btn.href = jobs[i].invite;
-          });
-        });
-    </script>
-    <script>
-      fetch("assets/jobs.json")
-        .then((res) => res.json())
-        .then((jobs) => {
-          const robloxBtns = document.querySelectorAll(".roblox-btn");
-          robloxBtns.forEach((btn) => {
-            const card = btn.closest(".server-card");
-            const name = card.querySelector(".server-name").textContent.trim();
-            const job = jobs.find((j) => j.name === name && j.roblox);
-            if (job) btn.href = job.roblox;
+          document.querySelectorAll(".server-card").forEach((card) => {
+            const i = parseInt(card.dataset.job);
+            const job = jobs[i];
+            if (!job) return;
+            const joinBtn = card.querySelector(".join-btn");
+            if (joinBtn && job.invite) joinBtn.href = job.invite;
+            const robloxBtn = card.querySelector(".roblox-btn");
+            if (robloxBtn && job.roblox) robloxBtn.href = job.roblox;
           });
         });
     </script>

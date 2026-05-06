@@ -230,9 +230,6 @@
         margin: 0 auto 6px;
       }
       .todo-section {
-        position: absolute;
-        left: 25px;
-        top: 350px;
         align-items: center;
         display: flex;
         flex-direction: column;
@@ -249,9 +246,6 @@
         overflow: auto;
       }
       .duo-section {
-        position: absolute;
-        right: 25px;
-        top: 350px;
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid #2a2a2a;
         border-radius: 16px;
@@ -375,10 +369,20 @@
       #author-input::placeholder {
         color: #444;
       }
+      .github-section {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        padding: 24px 32px;
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+        color: #666;
+        font-size: 1rem;
+        font-style: italic;
+        min-width: 200px;
+        width: 300px;
+      }
       .weather-section {
-        position: absolute;
-        right: 25px;
-        top: calc(50% + 100px);
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid #2a2a2a;
         border-radius: 16px;
@@ -403,6 +407,36 @@
         padding: 0 24px;
         width: 100%;
         justify-content: center;
+      }
+      .github-section img {
+        width: 100%;
+        border-radius: 8px;
+      }
+      .github-section .duo-header img {
+        filter: invert(1);
+        width: 36px;
+        height: 36px;
+      }
+      .stats-inner-row {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        justify-content: center;
+        width: 100%;
+      }
+      .left-col,
+      .right-col {
+        position: absolute;
+        top: 40%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .left-col {
+        left: 25px;
+      }
+      .right-col {
+        right: 25px;
       }
     </style>
   </head>
@@ -580,7 +614,7 @@
       </div>
       <button id="next">&#8594;</button>
     </div>
-    <div class="stats-row">
+    <div class="left-col">
       <div class="todo-section">
         <div class="todo-header">
           <span>To-Do List</span>
@@ -588,6 +622,19 @@
         <ul id="todo-list"></ul>
         <button id="add-todo-btn">+ Add</button>
       </div>
+      <div class="github-section" id="github-section" style="display: none">
+        <div class="duo-header">
+          <img
+            src="assets/GitHub_Invertocat_Black.svg"
+            style="filter: invert(1); width: 36px; height: 36px"
+          />
+          <span>GitHub Stats</span>
+        </div>
+
+        <div id="gh-card"></div>
+      </div>
+    </div>
+    <div class="right-col">
       <div class="duo-section" id="duolingo-stats"></div>
       <div class="weather-section" id="weather-widget">Loading weather...</div>
     </div>
@@ -646,6 +693,18 @@
       }
 
       fetchWeather(41.8832, -87.6324);
+
+      const ghCard = new Image();
+      ghCard.src =
+        "https://github-readme-stats.vercel.app/api?username=leemo-jeemo&show_icons=true&theme=dark&hide_border=true&bg_color=0d0d0d&title_color=ffffff&text_color=666666";
+      ghCard.style.width = "100%";
+      ghCard.style.borderRadius = "8px";
+      ghCard.onload = () => {
+        if (ghCard.naturalWidth > 1) {
+          document.getElementById("gh-card").appendChild(ghCard);
+          document.getElementById("github-section").style.display = "block";
+        }
+      };
     </script>
     <script>
       fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/quotes")
@@ -895,6 +954,17 @@
         } else if (modalMode === "quote") {
           const author = modalInput2.value.trim();
           if (!author) return;
+
+          if (author.length > 50) {
+            showToast("Author name is exceeding 50 characters.");
+            return;
+          }
+
+          if (value.length > 200) {
+            showToast("Quote is exceeding 200 characters.");
+            return;
+          }
+
           closeModal();
           await fetch(WORKER_URL + "quotes", {
             method: "POST",

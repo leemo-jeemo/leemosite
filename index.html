@@ -35,6 +35,7 @@
         letter-spacing: -2px;
         color: #ffffff;
         margin: 0;
+        text-align: center;
       }
       .name-wrap {
         position: relative;
@@ -230,14 +231,15 @@
       }
       .todo-section {
         position: absolute;
-        left: 100px;
-        top: 50%;
-        transform: translateY(-50%);
+        left: 25px;
+        top: 350px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid #2a2a2a;
         border-radius: 16px;
         padding: 24px 32px;
-        text-align: center;
         font-family: "DM Sans", sans-serif;
         color: #666;
         font-size: 1rem;
@@ -248,9 +250,8 @@
       }
       .duo-section {
         position: absolute;
-        right: 100px;
-        top: 50%;
-        transform: translateY(-50%);
+        right: 25px;
+        top: 350px;
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid #2a2a2a;
         border-radius: 16px;
@@ -294,6 +295,12 @@
         font-style: normal;
         font-weight: 700;
         font-size: 1.2rem;
+        text-align: center;
+      }
+      .todo-header {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 14px;
       }
       #modal-overlay {
         position: fixed;
@@ -367,6 +374,35 @@
       #quote-input::placeholder,
       #author-input::placeholder {
         color: #444;
+      }
+      .weather-section {
+        position: absolute;
+        right: 25px;
+        top: calc(50% + 100px);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        padding: 24px 32px;
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+        color: #666;
+        font-size: 1rem;
+        font-style: italic;
+        min-width: 200px;
+        width: 300px;
+      }
+      .weather-section p {
+        margin: 4px 0;
+      }
+      .stats-row {
+        display: flex;
+        flex-direction: row;
+        gap: 24px;
+        align-items: flex-start;
+        margin-top: 24px;
+        padding: 0 24px;
+        width: 100%;
+        justify-content: center;
       }
     </style>
   </head>
@@ -544,14 +580,73 @@
       </div>
       <button id="next">&#8594;</button>
     </div>
-    <div class="todo-section">
-      <div class="todo-header">
-        <span>To-Do List</span>
+    <div class="stats-row">
+      <div class="todo-section">
+        <div class="todo-header">
+          <span>To-Do List</span>
+        </div>
+        <ul id="todo-list"></ul>
+        <button id="add-todo-btn">+ Add</button>
       </div>
-      <ul id="todo-list"></ul>
-      <button id="add-todo-btn">+ Add</button>
+      <div class="duo-section" id="duolingo-stats"></div>
+      <div class="weather-section" id="weather-widget">Loading weather...</div>
     </div>
-    <div class="duo-section" id="duolingo-stats"></div>
+    <script>
+      function fetchWeather(lat, lon) {
+        fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=41.8832&longitude=-87.6324&current=temperature_2m,weather_code&temperature_unit=fahrenheit`,
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const temp = data.current.temperature_2m;
+            const code = data.current.weather_code;
+
+            const conditions = {
+              0: "Clear sky",
+              1: "Mainly clear",
+              2: "Partly cloudy",
+              3: "Overcast",
+              45: "Foggy",
+              48: "Foggy",
+              51: "Light drizzle",
+              61: "Light rain",
+              63: "Rain",
+              71: "Light snow",
+              73: "Snow",
+              80: "Showers",
+              95: "Thunderstorm",
+            };
+            const emojis = {
+              0: "☀️",
+              1: "🌤️",
+              2: "⛅",
+              3: "☁️",
+              45: "🌫️",
+              48: "🌫️",
+              51: "🌦️",
+              61: "🌧️",
+              63: "🌧️",
+              71: "🌨️",
+              73: "❄️",
+              80: "🌦️",
+              95: "⛈️",
+            };
+            const condition = conditions[code] ?? "Unknown";
+            const emoji = emojis[code] ?? "🌡️";
+
+            document.getElementById("weather-widget").innerHTML = `
+                <div class ="duo-header">
+                  <span>${emoji}</span>
+                  <span>Weather</span>
+                  </div>
+                  <p>${temp}°F - ${condition}</p>
+                  <p><em>Chicago, IL</em></p>
+                `;
+          });
+      }
+
+      fetchWeather(41.8832, -87.6324);
+    </script>
     <script>
       fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/quotes")
         .then((res) => res.json())
@@ -621,7 +716,7 @@
     <script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
     <script>
       const CACHE_KEY = "duo_stats";
-      const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+      const CACHE_TTL = 24 * 60 * 60 * 1000;
 
       function renderStats(user) {
         console.log(user.courses);

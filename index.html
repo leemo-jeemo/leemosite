@@ -639,72 +639,72 @@
       <div class="weather-section" id="weather-widget">Loading weather...</div>
     </div>
     <script>
-      function fetchWeather(lat, lon) {
-        fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=41.8832&longitude=-87.6324&current=temperature_2m,weather_code&temperature_unit=fahrenheit`,
-        )
-          .then((res) => res.json())
-          .then((data) => {
-            const temp = data.current.temperature_2m;
-            const code = data.current.weather_code;
+        function fetchWeather(lat, lon) {
+          fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=41.8832&longitude=-87.6324&current=temperature_2m,weather_code&temperature_unit=fahrenheit`,
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              const temp = data.current.temperature_2m;
+              const code = data.current.weather_code;
 
-            const conditions = {
-              0: "Clear sky",
-              1: "Mainly clear",
-              2: "Partly cloudy",
-              3: "Overcast",
-              45: "Foggy",
-              48: "Foggy",
-              51: "Light drizzle",
-              61: "Light rain",
-              63: "Rain",
-              71: "Light snow",
-              73: "Snow",
-              80: "Showers",
-              95: "Thunderstorm",
-            };
-            const emojis = {
-              0: "☀️",
-              1: "🌤️",
-              2: "⛅",
-              3: "☁️",
-              45: "🌫️",
-              48: "🌫️",
-              51: "🌦️",
-              61: "🌧️",
-              63: "🌧️",
-              71: "🌨️",
-              73: "❄️",
-              80: "🌦️",
-              95: "⛈️",
-            };
-            const condition = conditions[code] ?? "Unknown";
-            const emoji = emojis[code] ?? "🌡️";
+              const conditions = {
+                0: "Clear sky",
+                1: "Mainly clear",
+                2: "Partly cloudy",
+                3: "Overcast",
+                45: "Foggy",
+                48: "Foggy",
+                51: "Light drizzle",
+                61: "Light rain",
+                63: "Rain",
+                71: "Light snow",
+                73: "Snow",
+                80: "Showers",
+                95: "Thunderstorm",
+              };
+              const emojis = {
+                0: "☀️",
+                1: "🌤️",
+                2: "⛅",
+                3: "☁️",
+                45: "🌫️",
+                48: "🌫️",
+                51: "🌦️",
+                61: "🌧️",
+                63: "🌧️",
+                71: "🌨️",
+                73: "❄️",
+                80: "🌦️",
+                95: "⛈️",
+              };
+              const condition = conditions[code] ?? "Unknown";
+              const emoji = emojis[code] ?? "🌡️";
 
-            document.getElementById("weather-widget").innerHTML = `
-                <div class ="duo-header">
-                  <span>${emoji}</span>
-                  <span>Weather</span>
-                  </div>
-                  <p>${temp}°F - ${condition}</p>
-                  <p><em>Chicago, IL</em></p>
-                `;
-          });
-      }
-
-      fetchWeather(41.8832, -87.6324);
-
-      const ghCard = new Image();
-      ghCard.src =
-        "https://github-readme-stats.vercel.app/api?username=leemo-jeemo&show_icons=true&theme=dark&hide_border=true&bg_color=0d0d0d&title_color=ffffff&text_color=666666";
-      ghCard.style.width = "100%";
-      ghCard.style.borderRadius = "8px";
-      ghCard.onload = () => {
-        if (ghCard.naturalWidth > 1) {
-          document.getElementById("gh-card").appendChild(ghCard);
-          document.getElementById("github-section").style.display = "block";
+              document.getElementById("weather-widget").innerHTML = `
+                  <div class ="duo-header">
+                    <span>${emoji}</span>
+                    <span>Weather</span>
+                    </div>
+                    <p>${temp}°F - ${condition}</p>
+                    <p><em>Chicago, IL</em></p>
+                  `;
+            });
         }
-      };
+
+        fetchWeather(41.8832, -87.6324);
+
+        const ghCard = new Image();
+      <!-- ghCard.src =
+          "https://github-readme-stats-fast.vercel.app/api?username=leemo-jeemo&theme=transparent&show_icons=true&hide_border=true&icon_color=ffffff&title_color=ffffff&text_color=666666&hide=prs,contribs,stars&hide_title=true&card_width=1"; -->
+        ghCard.style.width = "100%";
+        ghCard.style.borderRadius = "8px";
+        ghCard.onload = () => {
+          if (ghCard.naturalWidth > 1) {
+            document.getElementById("gh-card").appendChild(ghCard);
+            document.getElementById("github-section").style.display = "block";
+          }
+        };
     </script>
     <script>
       fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/quotes")

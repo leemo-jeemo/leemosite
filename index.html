@@ -438,6 +438,92 @@
       .right-col {
         right: 25px;
       }
+      .music-player {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid #2a2a2a;
+        padding: 14px;
+        border-radius: 14px;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      .album-cover {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+
+      .song-title {
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .song-artist {
+        color: #666;
+        font-size: 0.8rem;
+      }
+      .play-btn {
+        background: transparent;
+        border: 1px solid #333;
+        color: #fff;
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+      }
+      .progress-container {
+        position: relative;
+        height: 6px;
+        background: #1f1f1f;
+        border-radius: 999px;
+        margin-top: 10px;
+        cursor: pointer;
+        overflow: visible;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #777;
+        border-radius: 999px;
+      }
+      .progress-dot {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        left: 0%;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+      }
+      .progress-container:hover .progress-dot {
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+      .music-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 10px;
+      }
+      .music-top {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .time-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #666;
+      }
     </style>
   </head>
   <body>
@@ -494,7 +580,6 @@
 
         <h1>leemo</h1>
       </div>
-
       <div class="socials">
         <a href="https://github.com/leemo-jeemo"
           ><img src="assets/GitHub_Invertocat_Black.svg" width="32" height="32"
@@ -505,6 +590,39 @@
         <a href="https://www.roblox.com/users/1567155158/profile"
           ><img src="assets/Roblox_Black.svg" width="32" height="32"
         /></a>
+      </div>
+      <hr class="divider" />
+      <div class="music-player">
+        <img
+          src="assets/memories-cover.png"
+          alt="Memories Cover"
+          class="album-cover"
+        />
+
+        <div class="music-content">
+          <div class="music-top">
+            <div>
+              <div class="song-title">Memories</div>
+              <div class="song-artist">— <em>leemo</em></div>
+            </div>
+
+            <button id="play-btn" class="play-btn">▶</button>
+          </div>
+
+          <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+            <div class="progress-dot" id="progress-dot"></div>
+          </div>
+
+          <div class="time-row">
+            <span id="current-time">0:00</span>
+            <span id="duration">0:00</span>
+          </div>
+
+          <audio id="memories-audio">
+            <source src="assets/Memories.wav" type="audio/wav" />
+          </audio>
+        </div>
       </div>
       <hr class="divider" />
       <div class="quote-block">
@@ -639,72 +757,72 @@
       <div class="weather-section" id="weather-widget">Loading weather...</div>
     </div>
     <script>
-        function fetchWeather(lat, lon) {
-          fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=41.8832&longitude=-87.6324&current=temperature_2m,weather_code&temperature_unit=fahrenheit`,
-          )
-            .then((res) => res.json())
-            .then((data) => {
-              const temp = data.current.temperature_2m;
-              const code = data.current.weather_code;
+      function fetchWeather(lat, lon) {
+        fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=41.8832&longitude=-87.6324&current=temperature_2m,weather_code&temperature_unit=fahrenheit`,
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            const temp = data.current.temperature_2m;
+            const code = data.current.weather_code;
 
-              const conditions = {
-                0: "Clear sky",
-                1: "Mainly clear",
-                2: "Partly cloudy",
-                3: "Overcast",
-                45: "Foggy",
-                48: "Foggy",
-                51: "Light drizzle",
-                61: "Light rain",
-                63: "Rain",
-                71: "Light snow",
-                73: "Snow",
-                80: "Showers",
-                95: "Thunderstorm",
-              };
-              const emojis = {
-                0: "☀️",
-                1: "🌤️",
-                2: "⛅",
-                3: "☁️",
-                45: "🌫️",
-                48: "🌫️",
-                51: "🌦️",
-                61: "🌧️",
-                63: "🌧️",
-                71: "🌨️",
-                73: "❄️",
-                80: "🌦️",
-                95: "⛈️",
-              };
-              const condition = conditions[code] ?? "Unknown";
-              const emoji = emojis[code] ?? "🌡️";
+            const conditions = {
+              0: "Clear sky",
+              1: "Mainly clear",
+              2: "Partly cloudy",
+              3: "Overcast",
+              45: "Foggy",
+              48: "Foggy",
+              51: "Light drizzle",
+              61: "Light rain",
+              63: "Rain",
+              71: "Light snow",
+              73: "Snow",
+              80: "Showers",
+              95: "Thunderstorm",
+            };
+            const emojis = {
+              0: "☀️",
+              1: "🌤️",
+              2: "⛅",
+              3: "☁️",
+              45: "🌫️",
+              48: "🌫️",
+              51: "🌦️",
+              61: "🌧️",
+              63: "🌧️",
+              71: "🌨️",
+              73: "❄️",
+              80: "🌦️",
+              95: "⛈️",
+            };
+            const condition = conditions[code] ?? "Unknown";
+            const emoji = emojis[code] ?? "🌡️";
 
-              document.getElementById("weather-widget").innerHTML = `
-                  <div class ="duo-header">
+            document.getElementById("weather-widget").innerHTML = `
+                  <div class="duo-header">
                     <span>${emoji}</span>
                     <span>Weather</span>
                     </div>
                     <p>${temp}°F - ${condition}</p>
                     <p><em>Chicago, IL</em></p>
                   `;
-            });
+          });
+      }
+
+      fetchWeather(41.8832, -87.6324);
+
+      const ghCard = new Image();
+      /* ghCard.src =
+          "https://github-readme-stats-fast.vercel.app/api?username=leemo-jeemo&theme=transparent&show_icons=true&hide_border=true&icon_color=ffffff&title_color=ffffff&text_color=666666&hide=prs,contribs,stars&hide_title=true&card_width=1"; */
+      ghCard.style.width = "100%";
+      ghCard.style.borderRadius = "8px";
+      ghCard.onload = () => {
+        if (ghCard.naturalWidth > 1) {
+          document.getElementById("gh-card").appendChild(ghCard);
+          document.getElementById("github-section").style.display = "block";
         }
-
-        fetchWeather(41.8832, -87.6324);
-
-        const ghCard = new Image();
-      <!-- ghCard.src =
-          "https://github-readme-stats-fast.vercel.app/api?username=leemo-jeemo&theme=transparent&show_icons=true&hide_border=true&icon_color=ffffff&title_color=ffffff&text_color=666666&hide=prs,contribs,stars&hide_title=true&card_width=1"; -->
-        ghCard.style.width = "100%";
-        ghCard.style.borderRadius = "8px";
-        ghCard.onload = () => {
-          if (ghCard.naturalWidth > 1) {
-            document.getElementById("gh-card").appendChild(ghCard);
-            document.getElementById("github-section").style.display = "block";
-          }
-        };
+      };
     </script>
     <script>
       fetch("https://icy-shape-78e5.bigmurph2618.workers.dev/quotes")
@@ -730,6 +848,80 @@
         cards[current].classList.remove("active");
         current = (current - 1 + cards.length) % cards.length;
         cards[current].classList.add("active");
+      });
+    </script>
+    <script>
+      const audio = document.getElementById("memories-audio");
+      const btn = document.getElementById("play-btn");
+
+      const bar = document.getElementById("progress-bar");
+      const dot = document.getElementById("progress-dot");
+      const container = document.getElementById("progress-container");
+
+      const currentTimeEl = document.getElementById("current-time");
+      const durationEl = document.getElementById("duration");
+
+      let isDragging = false;
+
+      function formatTime(sec) {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${s < 10 ? "0" : ""}${s}`;
+      }
+
+      btn.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play();
+          btn.textContent = "❚❚";
+        } else {
+          audio.pause();
+          btn.textContent = "▶";
+        }
+      });
+
+      audio.addEventListener("loadedmetadata", () => {
+        durationEl.textContent = formatTime(audio.duration);
+      });
+
+      function updateProgress() {
+        const percent = (audio.currentTime / audio.duration) * 100;
+
+        bar.style.width = percent + "%";
+        dot.style.left = percent + "%";
+
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+      }
+
+      audio.addEventListener("timeupdate", () => {
+        if (!isDragging) updateProgress();
+      });
+
+      container.addEventListener("click", (e) => {
+        const rect = container.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+
+        audio.currentTime = percent * audio.duration;
+      });
+
+      dot.addEventListener("mousedown", () => {
+        isDragging = true;
+      });
+
+      window.addEventListener("mouseup", (e) => {
+        if (!isDragging) return;
+
+        const rect = container.getBoundingClientRect();
+        const percent = Math.min(
+          Math.max((e.clientX - rect.left) / rect.width, 0),
+          1,
+        );
+
+        audio.currentTime = percent * audio.duration;
+        isDragging = false;
+      });
+
+      audio.addEventListener("ended", () => {
+        btn.textContent = "▶";
       });
     </script>
     <script>
@@ -788,7 +980,7 @@
             <span>Duolingo Stats</span>
           </div>
             <p>${streak} day streak</p>
-            <p>🇪🇸 ${spanish.xp} Spanish XP</p>
+            ${spanish ? `<p>🇪🇸 ${spanish.xp} Spanish XP</p>` : ""}
       ${chess ? `<p>♟️ ${chess.xp} Chess XP</p>` : ""}`;
       }
 
@@ -798,15 +990,20 @@
         )
           .then((res) => res.json())
           .then((data) => {
-            const user = data.users[0];
-            localStorage.setItem(
-              CACHE_KEY,
-              JSON.stringify({ user, time: Date.now() }),
-            );
-            renderStats(user);
-            twemoji.parse(document.getElementById("duolingo-stats"), {
-              base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/",
-            });
+            if (data.users && data.users[0]) {
+              const user = data.users[0];
+              localStorage.setItem(
+                CACHE_KEY,
+                JSON.stringify({ user, time: Date.now() }),
+              );
+              renderStats(user);
+              twemoji.parse(document.getElementById("duolingo-stats"), {
+                base: "https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/",
+              });
+            }
+          })
+          .catch((err) => {
+            console.error("Failed to fetch Duolingo stats:", err);
           });
       }
 

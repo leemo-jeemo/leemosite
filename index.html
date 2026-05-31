@@ -659,7 +659,11 @@
               <p class="server-name">The Queen City</p>
               <p class="server-position">Deputy Director</p>
             </div>
-            <a href="#" target="_blank" class="join-btn">
+            <a
+              href="https://discord.gg/RsMmdmuFd3"
+              target="_blank"
+              class="join-btn"
+            >
               <img
                 src="assets/Discord_Black.svg"
                 width="16"
@@ -670,41 +674,30 @@
             </a>
           </div>
         </div>
-        <div class="server-card" data-job="1">
+        <div class="server-card" data-job="2">
           <div class="banner-wrap">
-            <img class="banner" src="assets/rs/banner.png" />
+            <img class="banner" src="assets/snapjaw/banner.png" />
           </div>
           <div class="server-info">
             <div>
-              <p class="server-name">rizzstore\\</p>
-              <p class="server-position">king leemo</p>
-            </div>
-            <a href="#" target="_blank" class="roblox-btn">
-              <img
-                src="assets/Roblox_Black.svg"
-                width="16"
-                height="16"
-                class="join-icon"
-              />
-              Roblox Group
-            </a>
-          </div>
-        </div>
-        <div class="server-card" data-job="3">
-          <div class="banner-wrap">
-            <img class="banner" src="assets/havric/banner.png" />
-          </div>
-          <div class="server-info">
-            <div>
-              <p class="server-name">Havric Concepts</p>
-              <p class="server-position">Marketing Team</p>
+              <p class="server-name">Snapjaw</p>
+              <p class="server-position">Moderator</p>
             </div>
             <div style="display: flex; gap: 8px">
               <a
-                href="https://discord.gg/8JgXHPr4tN"
+                href="https://snapjaw.pages.dev/"
                 target="_blank"
                 class="join-btn"
               >
+                <img
+                  src="assets/website.svg"
+                  width="16"
+                  height="16"
+                  class="join-icon"
+                />
+                Website
+              </a>
+              <a href="https://dsc.gg/snapjaw" target="_blank" class="join-btn">
                 <img
                   src="assets/Discord_Black.svg"
                   width="16"
@@ -713,20 +706,31 @@
                 />
                 Join
               </a>
-              <a
-                href="https://www.roblox.com/communities/79507151/Havric-Concepts#!/about/"
-                target="_blank"
-                class="join-btn"
-              >
-                <img
-                  src="assets/Roblox_Black.svg"
-                  width="16"
-                  height="16"
-                  class="join-icon"
-                />
-                Roblox Group
-              </a>
             </div>
+          </div>
+        </div>
+        <div class="server-card" data-job="3">
+          <div class="banner-wrap">
+            <img class="banner" src="assets/reforge/banner.png" />
+          </div>
+          <div class="server-info">
+            <div>
+              <p class="server-name">reforge.</p>
+              <p class="server-position">Manager</p>
+            </div>
+            <a
+              href="https://discord.gg/reforge"
+              target="_blank"
+              class="join-btn"
+            >
+              <img
+                src="assets/Discord_Black.svg"
+                width="16"
+                height="16"
+                class="join-icon"
+              />
+              Join
+            </a>
           </div>
         </div>
       </div>
@@ -923,21 +927,6 @@
       audio.addEventListener("ended", () => {
         btn.textContent = "▶";
       });
-    </script>
-    <script>
-      fetch("assets/jobs.json")
-        .then((res) => res.json())
-        .then((jobs) => {
-          document.querySelectorAll(".server-card").forEach((card) => {
-            const i = parseInt(card.dataset.job);
-            const job = jobs[i];
-            if (!job) return;
-            const joinBtn = card.querySelector(".join-btn");
-            if (joinBtn && job.invite) joinBtn.href = job.invite;
-            const robloxBtn = card.querySelector(".roblox-btn");
-            if (robloxBtn && job.roblox) robloxBtn.href = job.roblox;
-          });
-        });
     </script>
     <script>
       fetch("https://api.lanyard.rest/v1/users/987136948722364416")

@@ -425,85 +425,6 @@
       .right-col {
         right: 25px;
       }
-      .music-player {
-        display: flex;
-        gap: 14px;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid #2a2a2a;
-        padding: 14px;
-        border-radius: 14px;
-        max-width: 420px;
-        margin: 0 auto;
-      }
-
-      .album-cover {
-        width: 64px;
-        height: 64px;
-        border-radius: 10px;
-        object-fit: cover;
-      }
-
-      .song-title {
-        color: #fff;
-        font-weight: 700;
-        font-size: 0.95rem;
-      }
-
-      .song-artist {
-        color: #666;
-        font-size: 0.8rem;
-      }
-      .play-btn {
-        background: transparent;
-        border: 1px solid #333;
-        color: #fff;
-        border-radius: 8px;
-        padding: 6px 10px;
-        cursor: pointer;
-      }
-      .progress-container {
-        position: relative;
-        height: 6px;
-        background: #1f1f1f;
-        border-radius: 999px;
-        margin-top: 10px;
-        cursor: pointer;
-        overflow: visible;
-      }
-      .progress-bar {
-        height: 100%;
-        width: 0%;
-        background: #777;
-        border-radius: 999px;
-      }
-      .progress-dot {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 12px;
-        height: 12px;
-        background: #fff;
-        border-radius: 50%;
-        left: 0%;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-      }
-      .progress-container:hover .progress-dot {
-        transform: translate(-50%, -50%) scale(1.1);
-      }
-      .music-content {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        gap: 10px;
-      }
-      .music-top {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-      }
       .time-row {
         display: flex;
         flex-direction: row;
@@ -567,38 +488,6 @@
         /></a>
       </div>
       <hr class="divider" />
-      <div class="music-player">
-        <img
-          src="assets/memories-cover.png"
-          alt="Memories Cover"
-          class="album-cover"
-        />
-
-        <div class="music-content">
-          <div class="music-top">
-            <div>
-              <div class="song-title">Memories</div>
-              <div class="song-artist">— <em>leemo</em></div>
-            </div>
-
-            <button id="play-btn" class="play-btn">▶</button>
-          </div>
-
-          <div class="progress-container" id="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-            <div class="progress-dot" id="progress-dot"></div>
-          </div>
-
-          <div class="time-row">
-            <span id="current-time">0:00</span>
-            <span id="duration">0:00</span>
-          </div>
-
-          <audio id="memories-audio">
-            <source src="assets/Memories.wav" type="audio/wav" />
-          </audio>
-        </div>
-      </div>
       <hr class="divider" />
       <div class="quote-block">
         <p id="quote"></p>
@@ -710,80 +599,6 @@
           document.getElementById("popup-quote").textContent = quoteText;
           document.getElementById("popup-author").textContent = authorText;
         });
-    </script>
-    <script>
-      const audio = document.getElementById("memories-audio");
-      const btn = document.getElementById("play-btn");
-
-      const bar = document.getElementById("progress-bar");
-      const dot = document.getElementById("progress-dot");
-      const container = document.getElementById("progress-container");
-
-      const currentTimeEl = document.getElementById("current-time");
-      const durationEl = document.getElementById("duration");
-
-      let isDragging = false;
-
-      function formatTime(sec) {
-        const m = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60);
-        return `${m}:${s < 10 ? "0" : ""}${s}`;
-      }
-
-      btn.addEventListener("click", () => {
-        if (audio.paused) {
-          audio.play();
-          btn.textContent = "❚❚";
-        } else {
-          audio.pause();
-          btn.textContent = "▶";
-        }
-      });
-
-      audio.addEventListener("loadedmetadata", () => {
-        durationEl.textContent = formatTime(audio.duration);
-      });
-
-      function updateProgress() {
-        const percent = (audio.currentTime / audio.duration) * 100;
-
-        bar.style.width = percent + "%";
-        dot.style.left = percent + "%";
-
-        currentTimeEl.textContent = formatTime(audio.currentTime);
-      }
-
-      audio.addEventListener("timeupdate", () => {
-        if (!isDragging) updateProgress();
-      });
-
-      container.addEventListener("click", (e) => {
-        const rect = container.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-
-        audio.currentTime = percent * audio.duration;
-      });
-
-      dot.addEventListener("mousedown", () => {
-        isDragging = true;
-      });
-
-      window.addEventListener("mouseup", (e) => {
-        if (!isDragging) return;
-
-        const rect = container.getBoundingClientRect();
-        const percent = Math.min(
-          Math.max((e.clientX - rect.left) / rect.width, 0),
-          1,
-        );
-
-        audio.currentTime = percent * audio.duration;
-        isDragging = false;
-      });
-
-      audio.addEventListener("ended", () => {
-        btn.textContent = "▶";
-      });
     </script>
     <script>
       fetch("https://api.lanyard.rest/v1/users/987136948722364416")
